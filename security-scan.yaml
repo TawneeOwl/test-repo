@@ -23,7 +23,3 @@ jobs:
       issues: write
       security-events: write
 
-    steps:
-      - uses: ministryofjustice/devsecops-actions/sca@v1.3.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
