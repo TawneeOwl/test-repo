@@ -1,0 +1,30 @@
+{
+  "name": "laa-cst-security-dashboard",
+  "version": "1.0.0",
+  "description": "[![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/template-repository/badge)](https://github-community.service.justice.gov.uk/repository-standards/template-repository)",
+  "homepage": "https://github.com/ministryofjustice/laa-cst-security-dashboard#readme",
+  "bugs": {
+    "url": "https://github.com/ministryofjustice/laa-cst-security-dashboard/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ministryofjustice/laa-cst-security-dashboard.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "scripts": {
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
+    "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css  --no-source-map --load-path=. --load-path=node_modules  --quiet-deps"
+  },
+  "dependencies": {
+    "@hotwired/turbo-rails": "^8.0.20",
+    "@ministryofjustice/frontend": "^7.1.0",
+    "esbuild": "^0.27.0",
+    "govuk-frontend": "^5.13.0",
+    "sass": "^1.94.0"
+  },
+  "overrides": {
+    "picomatch@^2": "2.3.2",
+    "picomatch@^4": "4.0.4"
+  }
+}

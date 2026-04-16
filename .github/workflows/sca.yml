@@ -15,6 +15,10 @@ jobs:
       - name: Node
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.1.0
 
+      - name: Copy package.json to action directory
+        run: |
+          cp $GITHUB_WORKSPACE/package.json .package.json
+
       - name: Install
         shell: bash
         run: npm ci --ignore-scripts
