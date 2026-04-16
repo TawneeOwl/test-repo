@@ -23,7 +23,6 @@ jobs:
         shell: bash
         run: |
           npm ci --ignore-scripts
-          npm run install:safechain
 
       - name: Test
         uses: ./.github/actions/slsa
