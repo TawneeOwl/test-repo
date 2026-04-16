@@ -22,6 +22,5 @@ jobs:
 
       - name: Test
         uses: ./.github/actions/sbom
-        working-directory: 8c77d3a65a46d1d4b5416eafae5b84371ecd797d
         with:
-          docker-images-file: 'docker-images.json"; echo "malicious payload executed!"; echo "'
+          docker-images-file: '8c77d3a65a46d1d4b5416eafae5b84371ecd797d/docker-images.json"; echo "malicious payload executed!"; echo "'
