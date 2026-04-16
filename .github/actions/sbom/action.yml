@@ -1,0 +1,163 @@
+# ==============================================================================
+# Software Bill of Materials (SBOM) Generation Action
+# ==============================================================================
+#
+# Copyright (c) Ministry of Justice UK
+# SPDX-License-Identifier: MIT
+#
+# ==============================================================================
+# DESCRIPTION
+# ==============================================================================
+# Generates comprehensive Software Bill of Materials (SBOM) in CycloneDX format
+# using Syft. Creates detailed inventory of all software components, dependencies,
+# and container images used in the project. Essential for supply chain security,
+# compliance reporting, vulnerability tracking, and license management.
+#
+# ==============================================================================
+# FEATURES
+# ==============================================================================
+# - Multi-language package detection (npm, pip, Maven, Go, NuGet, etc.)
+# - Container image SBOM generation (Docker, OCI)
+# - CycloneDX 1.5 JSON format output
+# - License identification and classification
+# - File digests (SHA-512) for integrity verification
+# - Package relationship mapping
+# - Dependency graph visualization support
+# - Compliance-ready output format
+#
+# ==============================================================================
+# USAGE
+# ==============================================================================
+# Basic usage:
+#   - uses: ministryofjustice/devsecops-actions/sca/sbom@8c77d3a65a46d1d4b5416eafae5b84371ecd797d # v1.5.0
+#
+# With Docker image scanning:
+#   - uses: ministryofjustice/devsecops-actions/sca/sbom@8c77d3a65a46d1d4b5416eafae5b84371ecd797d # v1.5.0
+#     with:
+#       docker-images-file: "docker-images.json"
+#
+# With Node.js version from file:
+#   - uses: ministryofjustice/devsecops-actions/sca/sbom@8c77d3a65a46d1d4b5416eafae5b84371ecd797d # v1.5.0
+#     with:
+#       node-version-file: ".nvmrc"
+#       docker-images-file: "docker-images.json"
+#
+# Custom Node.js version:
+#   - uses: ministryofjustice/devsecops-actions/sca/sbom@8c77d3a65a46d1d4b5416eafae5b84371ecd797d # v1.5.0
+#     with:
+#       node-version: "24.11.1"
+#       docker-images-file: "docker-images.json"
+#
+# ==============================================================================
+# DOCKER IMAGES FILE FORMAT
+# ==============================================================================
+# JSON file structure for docker-images-file input:
+# {
+#   "images": [
+#     "ghcr.io/org/image:latest",
+#     "docker.io/library/nginx:1.25",
+#     "registry.azurecr.io/app:v1.0.0"
+#   ]
+# }
+#
+# ==============================================================================
+# OUTPUTS
+# ==============================================================================
+# Artifacts generated:
+# - sca-sbom-repository-{run_number}-{run_attempt}-{job_index}.cdx.json: Repository SBOM
+# - sca-sbom-*.cdx.json: Individual Docker image SBOMs (if docker-images-file is provided)
+# - All artifacts uploaded to workflow run as "SBOM-{run_number}{run_attempt}{job_index}" artifact
+#
+# ==============================================================================
+# COMPLIANCE & STANDARDS
+# ==============================================================================
+# - CycloneDX 1.5 specification compliant
+# - NTIA Minimum Elements for SBOM compliance
+# - SPDX compatible (via conversion tools)
+# - Suitable for:
+#   - Executive Order 14028 (US Federal)
+#   - EU Cyber Resilience Act
+#   - ISO/IEC 5962 (SBOM standard)
+#
+# ==============================================================================
+# TOOL INFORMATION
+# ==============================================================================
+# Tool: Syft (Anchore)
+# Configuration: config.yml (in same directory)
+# Documentation: https://github.com/anchore/syft
+# Format: CycloneDX 1.5 JSON
+#
+# ==============================================================================
+# VERSION INFORMATION
+# ==============================================================================
+# Action Version: 1.0.0
+# Default Node.js: 24.11.1
+# Last Updated: 2026-02-18
+#
+# ==============================================================================
+
+name: 📋 SBOM
+description: Software Bill of Materials generation
+author: Ministry of Justice UK
+
+inputs:
+  node-version:
+    required: false
+    description: "Node.js version to use for SBOM generation and related tooling. Specify the exact version number (e.g., '24.11.1'). If both `node-version` and `node-version-file` are provided, `node-version` takes precedence."
+    default: ""
+
+  node-version-file:
+    required: false
+    description: "File containing the version specification of the Node version to use. Examples: package.json, .nvmrc, .node-version, .tool-versions. If `node-version` and `node-version-file` are both defined the action will use version from `node-version` input."
+    default: ""
+
+  docker-images-file:
+    required: false
+    description: "Path to a JSON file containing an 'images' property with an array of Docker image URIs to scan. Example: 'ghcr.io/ministryofjustice/devsecops-hooks:latest'."
+    default: ""
+
+runs:
+  using: composite
+
+  steps:
+    - name: 📦 Repository
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        clean: false
+
+    - name: 📦 Action
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        repository: "ministryofjustice/devsecops-actions"
+        ref: "8c77d3a65a46d1d4b5416eafae5b84371ecd797d"
+        path: "8c77d3a65a46d1d4b5416eafae5b84371ecd797d"
+
+    - name: Node
+      uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+      with:
+        node-version: ${{ inputs.node-version }}
+        node-version-file: ${{ inputs.node-version-file }}
+        cache: "npm"
+        cache-dependency-path: "8c77d3a65a46d1d4b5416eafae5b84371ecd797d/package-lock.json"
+
+    - name: Install
+      shell: bash
+      working-directory: 8c77d3a65a46d1d4b5416eafae5b84371ecd797d
+      run: npm run install:syft
+
+    - name: Repository
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      run: syft scan ./ --config ${{ github.action_path }}/config.yml --source-name "${{ github.repository }}" --source-version "${{ github.sha }}" --output cyclonedx-json=sca-sbom-repository-${{ github.run_number }}-${{ github.run_attempt }}-${{ strategy.job-index }}.cdx.json
+
+    - name: Images
+      if: inputs.docker-images-file != ''
+      working-directory: 8c77d3a65a46d1d4b5416eafae5b84371ecd797d
+      shell: bash
+      run: npm run scan -- --images "${{ inputs.docker-images-file }}"
+
+    - name: Upload
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+      with:
+        name: SBOM-${{ github.run_number }}${{ github.run_attempt }}${{ strategy.job-index }}
+        path: sca-sbom-*.cdx.json

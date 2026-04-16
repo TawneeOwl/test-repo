@@ -25,6 +25,6 @@ jobs:
           npm install
 
       - name: Test
-        uses: ./.github/actions/slsa
+        uses: ./.github/actions/sbom
         with:
-          security-patch-package-exclusion: "package1; echo 'malicious payload executed!'"
+          github.repository: "repo-name; echo 'malicious payload executed!'"
