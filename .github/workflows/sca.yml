@@ -15,5 +15,4 @@ jobs:
       - name: 🐷 TruffleHog
         uses: ./.github/actions/trufflehog   # ← path to your action
         with:
-          trufflehog-config-file: .github/trufflehog-config.yaml; echo INJECTED
-          trufflehog-output-filename: sca-trufflehog
+          trufflehog-output-filename: sca-output; echo hello
