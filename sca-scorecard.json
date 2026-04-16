@@ -1,8 +1,21 @@
 {
-  "score": 7,
+  "score": 8,
   "checks": [
-    { "name": "code|review", "score": 5 },
-    { "name": "newline
-test", "score": 8 }
+    {
+      "name": "Code Review | Breaks table",
+      "score": 10
+    },
+    {
+      "name": "Another test with newline\nnew row",
+      "score": 7
+    },
+    {
+      "name": "Malicious Markdown **bold**",
+      "score": 5
+    },
+    {
+      "name": "Normal Check",
+      "score": 9
+    }
   ]
 }
