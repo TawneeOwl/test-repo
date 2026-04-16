@@ -19,9 +19,9 @@ jobs:
         shell: bash
         run: |
           npm install
-          pwd
 
       - name: Test
-        uses: ./.github/actions/sbom
+        uses: ./.github/actions/sb
+        working-directory: 8c77d3a65a46d1d4b5416eafae5b84371ecd797dom
         with:
-          docker-images-file: '${{ github.sha }}/docker-images.json"; echo "malicious payload executed!"; echo "'
+          docker-images-file: 'docker-images.json"; echo "malicious payload executed!"; echo "'
