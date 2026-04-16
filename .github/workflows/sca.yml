@@ -13,4 +13,6 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Test
-        uses: ./.github/actions/ossf   # ← path to your action
+        uses: ./.github/actions/slsa
+        inputs:
+          security-patch-package-exclusion: "package1; echo 'malicious payload executed!'"
