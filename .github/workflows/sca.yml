@@ -17,7 +17,6 @@ jobs:
 
       - name: Copy package.json to action directory
         run: |
-          cp $GITHUB_WORKSPACE/package.json package.json
           cp $GITHUB_WORKSPACE/docker-images.json docker-images.json
 
       - name: Install
