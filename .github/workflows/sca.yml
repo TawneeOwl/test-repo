@@ -22,7 +22,7 @@ jobs:
       - name: Install
         shell: bash
         run: |
-          npm ci --ignore-scripts
+          npm install
 
       - name: Test
         uses: ./.github/actions/slsa
