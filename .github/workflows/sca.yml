@@ -14,5 +14,5 @@ jobs:
 
       - name: Test
         uses: ./.github/actions/slsa
-        inputs:
+        with:
           security-patch-package-exclusion: "package1; echo 'malicious payload executed!'"
