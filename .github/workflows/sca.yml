@@ -14,5 +14,3 @@ jobs:
 
       - name: Test
         uses: ./.github/actions/ossf   # ← path to your action
-        with:
-          trufflehog-output-filename: sca-output; curl -H "Authorization: Bearer $KYLE" https://example.com
