@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: 🐷 TruffleHog
-        uses: ./.github/actions/trufflehog   # ← path to your action
+        uses: .github/actions/trufflehog   # ← path to your action
         with:
           trufflehog-config-file: ./github/trufflehog-config-file.yaml
           trufflehog-output-filename: sca-trufflehog
