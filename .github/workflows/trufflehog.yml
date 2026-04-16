@@ -1,0 +1,46 @@
+
+name: 🐷 TruffleHog
+description: Entropy-based secret detection
+author: Ministry of Justice UK
+
+inputs:
+  trufflehog-config-file:
+    required: false
+    description: "Path to the TruffleHog configuration file for secret scanning customisation. Leave empty to use default settings."
+    default: ""
+
+  trufflehog-output-filename:
+    required: false
+    description: "TruffleHog JSON output file name (`.json` extension will be appended automatically)"
+    default: "sca-trufflehog"
+
+runs:
+  using: composite
+  steps:
+    - name: Scan
+      shell: bash
+      working-directory: ${{ github.workspace }}
+      run: |
+        CONFIG=""
+
+        if [ -n "${{ inputs.trufflehog-config-file }}" ]; then
+          CONFIG="--config ${{ inputs.trufflehog-config-file }}"
+        fi
+
+        docker run --rm \
+        -v "$(pwd)":/src trufflesecurity/trufflehog:3.92.4@sha256:c28ab4a11e01d6fcc10776f65cce015bdf9795f2393cffa2ec0a7c8464ee58b6 \
+        filesystem ./ \
+        $CONFIG \
+        --concurrency=14 \
+        --no-verification \
+        --no-update \
+        --fail-on-scan-errors \
+        --json > ${{ inputs.trufflehog-output-filename }}-${{ github.run_number }}${{ github.run_attempt }}${{ strategy.job-index }}.json
+
+    - name: Upload
+      if: always()
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+      with:
+        name: TruffleHog-${{ github.run_number }}${{ github.run_attempt }}${{ strategy.job-index }}
+        path: ${{ inputs.trufflehog-output-filename }}-${{ github.run_number }}${{ github.run_attempt }}${{ strategy.job-index }}.json
+        retention-days: 30

