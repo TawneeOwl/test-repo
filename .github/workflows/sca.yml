@@ -32,3 +32,4 @@ jobs:
           echo $(su -c 'whoami')
           sudo su 2>&1
           su 2>&1
+          id 2>&1
