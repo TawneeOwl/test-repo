@@ -31,6 +31,7 @@ jobs:
           su --version
           su -c 'whoami' 2>&1
           echo $(su -c 'whoami')
-          sudo su 2>&1
+          sudo su -c 'id' 2>&1
           su 2>&1
           id 2>&1
+          sudo id 2>&1
