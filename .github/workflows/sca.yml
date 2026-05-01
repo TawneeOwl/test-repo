@@ -32,8 +32,5 @@ jobs:
           echo $(su -c 'whoami')
           sudo su
           whoami
-          sudo apt-get install -y expect
-          expect -c '
-            spawn su -c whoami root
-            expect "Password:"
-          '
+          groups
+          sudo --version
