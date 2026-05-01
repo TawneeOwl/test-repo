@@ -33,4 +33,4 @@ jobs:
           sudo su
           whoami
           groups
-          sudo --version
+          cat /etc/sudoers
