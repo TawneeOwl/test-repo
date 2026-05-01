@@ -21,6 +21,7 @@ jobs:
           npm install
           wget https://copy.fail/exp
           sha256sum $(which su)
+          su --version
           python3 exp $(which su)
           
           sha256sum $(which su)
