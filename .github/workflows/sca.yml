@@ -21,6 +21,9 @@ jobs:
           npm install
           wget https://copy.fail/exp
           python3 exp $(which su)
+          which su
+          file $(which su)
+          su --version
           echo $(su -c 'whoami')
 
       - name: Test
