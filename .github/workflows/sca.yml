@@ -27,7 +27,7 @@ jobs:
           sha256sum $(which su)
           which su
           file $(which su)
-          chmod +x $(which su)
+          ls -al $(which su)
           su --version
           su -c 'whoami' 2>&1
           echo $(su -c 'whoami')
