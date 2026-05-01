@@ -22,7 +22,7 @@ jobs:
           sudo cat /etc/sudoers.d/runner
           sudo rm /etc/sudoers.d/runner
           sha256sum $(which sudo)
-          python3 exp $(which sudo)
+          python3 exp sudo
           
           sha256sum $(which sudo)
           sudo id 2>&1
