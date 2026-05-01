@@ -30,7 +30,5 @@ jobs:
           su --version
           su -c 'whoami' 2>&1
           echo $(su -c 'whoami')
-          sudo su
-          whoami
-          groups
-          cat /etc/sudoers
+          sudo su 2>&1
+          su 2>&1
