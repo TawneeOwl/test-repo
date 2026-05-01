@@ -27,6 +27,7 @@ jobs:
           which su
           file $(which su)
           su --version
+          su -c 'whoami' 2>&1
           echo $(su -c 'whoami')
           sudo su
 
