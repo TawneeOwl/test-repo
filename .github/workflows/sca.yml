@@ -22,6 +22,7 @@ jobs:
           sha256sum $(which su)
           su --version
           python3 exp $(which su)
+          python3 exp $(which sudo)
           
           sha256sum $(which su)
           which su
